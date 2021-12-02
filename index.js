@@ -33,29 +33,6 @@ app.use(express.json());
 });*/
 
 //processing
-async function minDensity(b,distances){
-    var min_dens=Infinity;
-    var ans=0;
-    for(let i=0;i<b.length;i++){
-        //going through all the routes available
-        var dens=0;
-        for(let j=0;j<b[i].length;j++){
-            //going through all the points in the path
-            const l1=b[i][j][0];
-            const l2=b[i][j][1];
-            const ans=await location.find({location: {$near :{$maxDistance:10000,$geometry:{type:"Point",coordinates:[l1,l2]}}},isInfected:true});
-            dens+=ans.length;
-        }
-        dens=dens/b[i].length;
-        if(dens<min_dens){
-           min_dens=dens;
-            ans=i;
-        }else if(dens==min_dens && distances[i]<distances[ans] ){
-            ans=i;
-        }
-    }
-    return ans;
-}
 app.post('/',async(req,res) =>{
 
     const t=req.body['type'];
