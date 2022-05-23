@@ -34,7 +34,7 @@ app.use(express.json());
 
 //processing
 app.post('/',async(req,res) =>{
-    const threshold;
+    const threshold = 10;
     const t=req.body['type'];
 
     if(t==1){
