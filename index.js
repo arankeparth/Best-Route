@@ -34,7 +34,7 @@ app.use(express.json());
 
 //processing
 app.post('/',async(req,res) =>{
-
+    const threshold;
     const t=req.body['type'];
 
     if(t==1){
@@ -65,13 +65,20 @@ app.post('/',async(req,res) =>{
                 dens+=ans.length;
                 console.log(ans.length);
             }
-            dens=dens/b[i].length;
+           if(dens > threshold) {
+             dens=dens/b[i].length;
             if(dens<min_dens){
                min_dens=dens;
                 ans=i;
             }else if(dens==min_dens && distances[i]<distances[ans] ){
                 ans=i;
             }
+           }
+           else {
+            if(distances[i]<distances[ans]) {
+                ans=i;
+            }
+           }
         }
         res.status(200).json({"ans":ans,"path":b[ans],"points":points});
     }
